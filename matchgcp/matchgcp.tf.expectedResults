@@ -1,0 +1,124 @@
+{
+    "meta": {
+        "matchedPoliciesSummary": {
+            "high": 0,
+            "medium": 6,
+            "low": 2
+        },
+        "errorDetails": []
+    },
+    "data": [
+        {
+            "id": "e1b70bb4-bb77-4326-93d5-5dd9c5170d3f",
+            "attributes": {
+                "severity": "medium",
+                "name": "GCP Kubernetes Engine Clusters have Master authorized networks disabled",
+                "rule": "$.resource.google_container_cluster[*].master_authorized_networks_config anyNull or ($.resource.google_container_cluster[*].master_authorized_networks_config exists and $.resource.google_container_cluster[*].master_authorized_networks_config.cidr_blocks !exists)",
+                "desc": "This policy identifies Kubernetes Engine Clusters which have disabled Master authorized networks. Enabling Master authorized networks will let the Kubernetes Engine block untrusted non-GCP source IPs from accessing the Kubernetes master through HTTPS.",
+                "files": [
+                    "attached"
+                ],
+                "policyId": "e1b70bb4-bb77-4326-93d5-5dd9c5170d3f",
+                "docUrl": "http://prisma.fyi/p16"
+            }
+        },
+        {
+            "id": "fe72c1c2-da18-4add-9a29-cffd48938fc8",
+            "attributes": {
+                "severity": "medium",
+                "name": "GCP Kubernetes cluster istioConfig not enabled",
+                "rule": "$.resource.google_container_cluster exists and ($.resource.google_container_cluster[*].addons_config anyNull or $.resource.google_container_cluster[*].addons_config.istio_config anyNull or $.resource.google_container_cluster[*].addons_config.istio_config anyNull  or  $.resource.google_container_cluster[*].addons_config.istio_config.disabled anyNull or  $.resource.google_container_cluster[*].addons_config.istio_config.disabled anyTrue)",
+                "desc": "Istio is an open service mesh that provides a uniform way to connect, manage, and secure microservices. It supports managing traffic flows between services, enforcing access policies, and aggregating telemetry data, all without requiring changes to the microservice code.\n\nThis policy checks your cluster for the Istio add-on feature and alerts if it is not enabled.",
+                "files": [
+                    "attached"
+                ],
+                "policyId": "fe72c1c2-da18-4add-9a29-cffd48938fc8",
+                "docUrl": "http://prisma.fyi/p86"
+            }
+        },
+        {
+            "id": "6ddbfdfe-3936-43d0-8157-97a7899beae6",
+            "attributes": {
+                "severity": "medium",
+                "name": "GCP Kubernetes Engine Clusters have Network policy disabled",
+                "rule": "$.resource.google_container_cluster exists and  ($.resource.google_container_cluster[*].network_policy anyNull or $.resource.google_container_cluster[*].addons_config.network_policy_config anyNull or $.resource.google_container_cluster[*].addons_config.network_policy_config.disabled anyNull or $.resource.google_container_cluster[*].addons_config.network_policy_config.disabled anyTrue) ",
+                "desc": "This policy identifies Kubernetes Engine Clusters which have disabled Network policy. A network policy defines how groups of pods are allowed to communicate with each other and other network endpoints. By enabling network policy in a namespace for a pod, it will reject any connections that are not allowed by the network policy.",
+                "files": [
+                    "attached"
+                ],
+                "policyId": "6ddbfdfe-3936-43d0-8157-97a7899beae6",
+                "docUrl": "http://prisma.fyi/p17"
+            }
+        },
+        {
+            "id": "d4a28b1f-9a9b-4a40-874d-9da7f9d4e8a6",
+            "attributes": {
+                "severity": "medium",
+                "name": "GCP Kubernetes Engine Cluster Nodes have default Service account for Project access",
+                "rule": "$.resource.google_container_cluster[*].node_config anyNull or $.resource.google_container_cluster[*].node_config.service_account anyNull",
+                "desc": "This policy identifies Kubernetes Engine Cluster Nodes which have default Service account for Project access. By default, Kubernetes Engine nodes are given the Compute Engine default service account. This account has broad access and more permissions than are required to run your Kubernetes Engine cluster. You should create and use a least privileged service account to run your Kubernetes Engine cluster instead of using the Compute Engine default service account. If you are not creating a separate service a",
+                "files": [
+                    "attached"
+                ],
+                "policyId": "d4a28b1f-9a9b-4a40-874d-9da7f9d4e8a6",
+                "docUrl": "http://prisma.fyi/p33"
+            }
+        },
+        {
+            "id": "a667d66e-899d-4b15-ab02-9de69c73dd8c",
+            "attributes": {
+                "severity": "medium",
+                "name": "GCP Kubernetes cluster Application-layer Secrets not encrypted",
+                "rule": "$.resource.google_container_cluster exists and ($.resource.google_container_cluster[*].database_encryption anyNull or  $.resource.google_container_cluster[*].database_encryption.state any equal DECRYPTED)",
+                "desc": "Application-layer Secrets Encryption provides an additional layer of security for sensitive data, such as Secrets, stored in etcd. Using this functionality, you can use a key, that you manage in Cloud KMS, to encrypt data at the application layer. This protects against attackers who gain access to an offline copy of etcd.\n\nThis policy checks your cluster for the Application-layer Secrets Encryption security feature and alerts if it is not enabled.",
+                "files": [
+                    "attached"
+                ],
+                "policyId": "a667d66e-899d-4b15-ab02-9de69c73dd8c",
+                "docUrl": "http://prisma.fyi/p77"
+            }
+        },
+        {
+            "id": "f57baa2a-6039-4a17-94e8-0be723bcdc75",
+            "attributes": {
+                "severity": "medium",
+                "name": "GCP Kubernetes Engine Clusters have Legacy Authorization enabled",
+                "rule": "$.resource.google_container_cluster[*].enable_legacy_abac anyTrue",
+                "desc": "This policy identifies GCP Kubernetes Engine Clusters which have enabled legacy authorizer. The legacy authorizer in Kubernetes Engine grants broad and statically defined permissions to all cluster users. After legacy authorizer setting is disabled, RBAC can limit permissions for authorized users based on need.",
+                "files": [
+                    "attached"
+                ],
+                "policyId": "f57baa2a-6039-4a17-94e8-0be723bcdc75",
+                "docUrl": "http://prisma.fyi/p30"
+            }
+        },
+        {
+            "id": "598c891b-bd7a-4fab-b477-a64bc4ddcf4c",
+            "attributes": {
+                "severity": "low",
+                "name": "GCP Kubernetes Engine Clusters have pod security policy disabled",
+                "rule": "$.resource.google_container_cluster exists and ($.resource.google_container_cluster[*].pod_security_policy_config anyNull or $.resource.google_container_cluster[*].pod_security_policy_config.enabled anyFalse)",
+                "desc": "This policy identifies Kubernetes Engine Clusters which have pod security policy disabled. The Pod Security Policy defines a set of conditions that pods must meet to be accepted by the cluster; when a request to create or update a pod does not meet the conditions in the pod security policy, that request is rejected and an error is returned.",
+                "files": [
+                    "attached"
+                ],
+                "policyId": "598c891b-bd7a-4fab-b477-a64bc4ddcf4c",
+                "docUrl": "http://prisma.fyi/p51"
+            }
+        },
+        {
+            "id": "63b162f4-628c-4d4a-a094-63c12ebc4ba2",
+            "attributes": {
+                "severity": "low",
+                "name": "GCP Kubernetes Engine Clusters have Alias IP disabled",
+                "rule": "$.resource.google_container_cluster exists and ($.resource.google_container_cluster[*].ip_allocation_policy does not exist or ($.resource.google_container_cluster[*].ip_allocation_policy exists and ($.resource.google_container_cluster[*].ip_allocation_policy.cluster_secondary_range_name does not exist or $.resource.google_container_cluster[*].ip_allocation_policy.services_secondary_range_name does not exist or $.resource.google_container_cluster[*].ip_allocation_policy.cluster_ipv4_cidr_block does not exist or $.resource.google_container_cluster[*].ip_allocation_policy.services_ipv4_cidr_block does not exist)))",
+                "desc": "This policy identifies Kubernetes Engine Clusters which have disabled Alias IP. Alias IP allows the networking layer to perform anti-spoofing checks to ensure that egress traffic is not sent with arbitrary source IPs. By enabling Alias IPs, Kubernetes Engine clusters can allocate IP addresses from a CIDR block known to Google Cloud Platform. This makes your cluster more scalable and allows your cluster to better interact with other GCP products and entities.",
+                "files": [
+                    "attached"
+                ],
+                "policyId": "63b162f4-628c-4d4a-a094-63c12ebc4ba2",
+                "docUrl": "http://prisma.fyi/p82"
+            }
+        }
+    ]
+}

@@ -1,0 +1,25 @@
+{
+    "meta": {
+        "matchedPoliciesSummary": {
+            "high": 0,
+            "medium": 0,
+            "low": 1
+        },
+        "errorDetails": []
+    },
+    "data": [
+        {
+            "id": "952d8fdc-ad1f-4c19-ab00-1258d2745424",
+            "attributes": {
+                "severity": "low",
+                "name": "GCP VM disks not encrypted with Customer-Supplied Encryption Keys (CSEK)",
+                "rule": "$.resource.google_compute_disk exists and $.resource[*].google_compute_disk.*.[*].*.disk_encrypt_key does not exist",
+                "desc": "This policy identifies VM disks which are not encrypted with Customer-Supplied Encryption Keys (CSEK). If you provide your own encryption keys, Compute Engine uses your key to protect the Google-generated keys used to encrypt and decrypt your data. It is recommended to use VM disks encrypted with CSEK for business-critical VM instances.",
+                "files": [
+                    "./gcp_compute_firewall_allow_ssh/main.tf"
+                ],
+                "policyId": "952d8fdc-ad1f-4c19-ab00-1258d2745424"
+            }
+        }
+    ]
+}

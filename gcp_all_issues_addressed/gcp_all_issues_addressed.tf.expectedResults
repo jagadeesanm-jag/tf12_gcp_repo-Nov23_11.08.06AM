@@ -1,0 +1,40 @@
+{
+    "meta": {
+        "matchedPoliciesSummary": {
+            "high": 0,
+            "medium": 1,
+            "low": 1
+        },
+        "errorDetails": []
+    },
+    "data": [
+        {
+            "id": "fe81b03a-c602-4b16-8ae9-973724c1adae",
+            "attributes": {
+                "severity": "medium",
+                "name": "GCP Kubernetes Engine Clusters web UI/Dashboard is set to Enabled",
+                "rule": "$.resource.google_container_cluster exists and ($.resource.google_container_cluster[*].addons_config.kubernetes_dashboard anyNull or $.resource.google_container_cluster[*].addons_config.kubernetes_dashboard.disabled anyFalse)",
+                "desc": "This policy identifies Kubernetes Engine Clusters which have enabled Kubernetes web UI/Dashboard. Since all the data is being transmitted over HTTP protocol, disabling Kubernetes web UI/Dashboard will protect the data from sniffers on the same network.",
+                "files": [
+                    "attached"
+                ],
+                "policyId": "fe81b03a-c602-4b16-8ae9-973724c1adae",
+                "docUrl": "http://prisma.fyi/p8"
+            }
+        },
+        {
+            "id": "63b162f4-628c-4d4a-a094-63c12ebc4ba2",
+            "attributes": {
+                "severity": "low",
+                "name": "GCP Kubernetes Engine Clusters have Alias IP disabled",
+                "rule": "$.resource.google_container_cluster exists and ($.resource.google_container_cluster[*].ip_allocation_policy does not exist or ($.resource.google_container_cluster[*].ip_allocation_policy exists and ($.resource.google_container_cluster[*].ip_allocation_policy.cluster_secondary_range_name does not exist or $.resource.google_container_cluster[*].ip_allocation_policy.services_secondary_range_name does not exist or $.resource.google_container_cluster[*].ip_allocation_policy.cluster_ipv4_cidr_block does not exist or $.resource.google_container_cluster[*].ip_allocation_policy.services_ipv4_cidr_block does not exist)))",
+                "desc": "This policy identifies Kubernetes Engine Clusters which have disabled Alias IP. Alias IP allows the networking layer to perform anti-spoofing checks to ensure that egress traffic is not sent with arbitrary source IPs. By enabling Alias IPs, Kubernetes Engine clusters can allocate IP addresses from a CIDR block known to Google Cloud Platform. This makes your cluster more scalable and allows your cluster to better interact with other GCP products and entities.",
+                "files": [
+                    "attached"
+                ],
+                "policyId": "63b162f4-628c-4d4a-a094-63c12ebc4ba2",
+                "docUrl": "http://prisma.fyi/p82"
+            }
+        }
+    ]
+}

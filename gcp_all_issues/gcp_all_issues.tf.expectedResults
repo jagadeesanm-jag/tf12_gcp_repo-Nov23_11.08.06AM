@@ -1,0 +1,390 @@
+{
+    "meta": {
+        "matchedPoliciesSummary": {
+            "high": 0,
+            "medium": 22,
+            "low": 5
+        },
+        "errorDetails": []
+    },
+    "data": [
+        {
+            "id": "ec842076-78f1-4c9c-86dc-e1c0e00f6150",
+            "attributes": {
+                "severity": "medium",
+                "name": "GCP VPC Network subnets have Private Google access disabled",
+                "rule": "$.resource.google_compute_subnetwork exists and ($.resource.google_compute_subnetwork[*].private_ip_google_access anyNull or $.resource.google_compute_subnetwork[*].private_ip_google_access anyFalse)",
+                "desc": "This policy identifies GCP VPC Network subnets have disabled Private Google access. Private Google access enables virtual machine instances on a subnet to reach Google APIs and services using an internal IP address rather than an external IP address. Internal (private) IP addresses are internal to Google Cloud Platform and are not routable or reachable over the Internet. You can use Private Google access to allow VMs without Internet access to reach Google APIs, services, and properties that are accessible ",
+                "files": [
+                    "attached"
+                ],
+                "policyId": "ec842076-78f1-4c9c-86dc-e1c0e00f6150",
+                "docUrl": "http://prisma.fyi/p110"
+            }
+        },
+        {
+            "id": "f57baa2a-6039-4a17-94e8-0be723bcdc75",
+            "attributes": {
+                "severity": "medium",
+                "name": "GCP Kubernetes Engine Clusters have Legacy Authorization enabled",
+                "rule": "$.resource.google_container_cluster[*].enable_legacy_abac anyTrue",
+                "desc": "This policy identifies GCP Kubernetes Engine Clusters which have enabled legacy authorizer. The legacy authorizer in Kubernetes Engine grants broad and statically defined permissions to all cluster users. After legacy authorizer setting is disabled, RBAC can limit permissions for authorized users based on need.",
+                "files": [
+                    "attached"
+                ],
+                "policyId": "f57baa2a-6039-4a17-94e8-0be723bcdc75",
+                "docUrl": "http://prisma.fyi/p30"
+            }
+        },
+        {
+            "id": "e5ef3a10-7b2a-4248-b750-9369ed21defc",
+            "attributes": {
+                "severity": "medium",
+                "name": "GCP Storage buckets are publicly accessible to all authenticated users",
+                "rule": "$.resource.google_storage_bucket_access_control[*].entity contains allUsers",
+                "desc": "This policy identifies the buckets which are publicly accessible to all authenticated users. Enabling public access to Storage Buckets enables anybody with a web association to access sensitive information that is critical to business. Access over a whole bucket is controlled by IAM. Access to individual objects within the bucket is controlled by its ACLs.",
+                "files": [
+                    "attached"
+                ],
+                "policyId": "e5ef3a10-7b2a-4248-b750-9369ed21defc",
+                "docUrl": "http://prisma.fyi/p34"
+            }
+        },
+        {
+            "id": "aee21917-3cff-4004-b965-79fb52cff952",
+            "attributes": {
+                "severity": "medium",
+                "name": "Storage Bucket does not have Access and Storage Logging enabled",
+                "rule": "$.resource.google_storage_bucket exists and ($.resource.google_storage_bucket[*].logging anyNull or $.resource.google_storage_bucket[*].logging.log_bucket anyEmpty)",
+                "desc": "Checks to verify that the configuration on the Storage Buckets is enabled for access logs and storage logs.",
+                "files": [
+                    "attached"
+                ],
+                "policyId": "aee21917-3cff-4004-b965-79fb52cff952",
+                "docUrl": "http://prisma.fyi/p84"
+            }
+        },
+        {
+            "id": "fe72c1c2-da18-4add-9a29-cffd48938fc8",
+            "attributes": {
+                "severity": "medium",
+                "name": "GCP Kubernetes cluster istioConfig not enabled",
+                "rule": "$.resource.google_container_cluster exists and ($.resource.google_container_cluster[*].addons_config anyNull or $.resource.google_container_cluster[*].addons_config.istio_config anyNull or $.resource.google_container_cluster[*].addons_config.istio_config anyNull  or  $.resource.google_container_cluster[*].addons_config.istio_config.disabled anyNull or  $.resource.google_container_cluster[*].addons_config.istio_config.disabled anyTrue)",
+                "desc": "Istio is an open service mesh that provides a uniform way to connect, manage, and secure microservices. It supports managing traffic flows between services, enforcing access policies, and aggregating telemetry data, all without requiring changes to the microservice code.\n\nThis policy checks your cluster for the Istio add-on feature and alerts if it is not enabled.",
+                "files": [
+                    "attached"
+                ],
+                "policyId": "fe72c1c2-da18-4add-9a29-cffd48938fc8",
+                "docUrl": "http://prisma.fyi/p86"
+            }
+        },
+        {
+            "id": "1bd841a7-9216-4382-b7f7-cdd3dc97f99e",
+            "attributes": {
+                "severity": "medium",
+                "name": "GCP IAM Service account has admin privileges",
+                "rule": "$.data[*].google_iam_policy[*].*[*].binding[?( @.role=='roles/editor' || @.role=='roles/owner' )].member endsWith \".gserviceaccount.com\" or $.data[*].google_iam_policy[*].*[*].binding[?( @.role=='roles/editor' || @.role=='roles/owner' )].members any end with \".gserviceaccount.com\" or  $.resource[*].google_organization_iam_binding[*].binding[?( @.role=='roles/editor' || @.role=='roles/owner' )].member endsWith \".gserviceaccount.com\" or $.resource[*].google_organization_iam_binding[*].binding[?( @.role=='roles/editor' || @.role=='roles/owner' )].members any end with \".gserviceaccount.com\" or $.resource[*].google_organization_iam_member[*].binding[?( @.role=='roles/editor' || @.role=='roles/owner' )].member endsWith \".gserviceaccount.com\" or $.resource[*].google_organization_iam_member[*].binding[?( @.role=='roles/editor' || @.role=='roles/owner' )].members any end with \".gserviceaccount.com\"  or $.resource[*].google_project_iam_binding[*].*[?( @.role=='roles/editor' || @.role=='roles/owner' )].member endsWith \".gserviceaccount.com\"  or $.resource.google_project_iam_binding.*[?( @.role=='roles/editor' || @.role=='roles/owner' )].members[*] any end with \".gserviceaccount.com\"    or $.resource.google_project_iam_member.*[?( @.role=='roles/editor' || @.role=='roles/owner' )].member endsWith \".gserviceaccount.com\" or $.resource[*].google_project_iam_member[*].*[?( @.role=='roles/editor' || @.role=='roles/owner' )].members any end with \".gserviceaccount.com\"",
+                "desc": "This policy identifies service accounts which have admin privileges. Application uses the service account to make requests to the Google API of a service so that the users aren't directly involved. It is recommended not to use admin access for ServiceAccount.",
+                "files": [
+                    "attached"
+                ],
+                "policyId": "1bd841a7-9216-4382-b7f7-cdd3dc97f99e",
+                "docUrl": "http://prisma.fyi/p27"
+            }
+        },
+        {
+            "id": "6e125379-081e-4b06-a7ba-f04da2f0901a",
+            "attributes": {
+                "severity": "medium",
+                "name": "GCP Kubernetes Engine Clusters Basic Authentication is set to Enabled",
+                "rule": "$.resource.google_container_cluster[*].master_auth exists and not ($.resource.google_container_cluster[*].master_auth.password is empty and $.resource.google_container_cluster[*].master_auth.username is empty)",
+                "desc": "This policy identifies Kubernetes Engine Clusters which have enabled Basic authentication. Basic authentication allows a user to authenticate to the cluster with a username and password. Disabling Basic authentication will prevent attacks like brute force. Authenticate using client certificate or IAM.",
+                "files": [
+                    "attached"
+                ],
+                "policyId": "6e125379-081e-4b06-a7ba-f04da2f0901a",
+                "docUrl": "http://prisma.fyi/p43"
+            }
+        },
+        {
+            "id": "fe81b03a-c602-4b16-8ae9-973724c1adae",
+            "attributes": {
+                "severity": "medium",
+                "name": "GCP Kubernetes Engine Clusters web UI/Dashboard is set to Enabled",
+                "rule": "$.resource.google_container_cluster exists and ($.resource.google_container_cluster[*].addons_config.kubernetes_dashboard anyNull or $.resource.google_container_cluster[*].addons_config.kubernetes_dashboard.disabled anyFalse)",
+                "desc": "This policy identifies Kubernetes Engine Clusters which have enabled Kubernetes web UI/Dashboard. Since all the data is being transmitted over HTTP protocol, disabling Kubernetes web UI/Dashboard will protect the data from sniffers on the same network.",
+                "files": [
+                    "attached"
+                ],
+                "policyId": "fe81b03a-c602-4b16-8ae9-973724c1adae",
+                "docUrl": "http://prisma.fyi/p8"
+            }
+        },
+        {
+            "id": "121ce47c-5c37-455f-b7b6-9dc967111f5d",
+            "attributes": {
+                "severity": "medium",
+                "name": "SQL Instances with network authorization exposing them to the Internet",
+                "rule": "$.resource.google_sql_database_instance[*].settings.ip_configuration.authorized_networks[*].value anyEqual 0.0.0.0/0 or $.resource.google_sql_database_instance[*].settings.ip_configuration.authorized_networks[*].value anyEqual ::/0",
+                "desc": "Checks to verify that the SQL instance should not have any authorization to allow network traffic to the internet.",
+                "files": [
+                    "attached"
+                ],
+                "policyId": "121ce47c-5c37-455f-b7b6-9dc967111f5d",
+                "docUrl": "http://prisma.fyi/p83"
+            }
+        },
+        {
+            "id": "a3688f2e-eb5b-4b8d-b26f-90d40f08fd84",
+            "attributes": {
+                "severity": "medium",
+                "name": "GCP Kubernetes Engine Clusters have HTTP load balancing disabled",
+                "rule": "$.resource.google_container_cluster exists and ($.resource.google_container_cluster[*].addons_config.http_load_balancing.disabled anyTrue)",
+                "desc": "This policy identifies GCP Kubernetes Engine Clusters which have disabled HTTP load balancing. HTTP/HTTPS load balancing provides global load balancing for HTTP/HTTPS requests destined for your instances. Enabling HTTP/HTTPS load balancers will let the Kubernetes Engine to terminate unauthorized HTTP/HTTPS requests and make better context-aware load balancing decisions.",
+                "files": [
+                    "attached"
+                ],
+                "policyId": "a3688f2e-eb5b-4b8d-b26f-90d40f08fd84",
+                "docUrl": "http://prisma.fyi/p40"
+            }
+        },
+        {
+            "id": "bb3cb1ba-55f8-4c14-b299-777d7be79697",
+            "attributes": {
+                "severity": "medium",
+                "name": "GCP VM instances have IP Forwarding enabled",
+                "rule": "$.resource.google_compute_instance_template[*].can_ip_forward anyTrue",
+                "desc": "This policy identifies VM instances that have IP Forwarding enabled. IP Forwarding could open unintended and undesirable communication paths and allows VM instances to send and receive packets with the non-matching destination or source IPs. To enable the source and destination IP match check, disable IP Forwarding.",
+                "files": [
+                    "attached"
+                ],
+                "policyId": "bb3cb1ba-55f8-4c14-b299-777d7be79697",
+                "docUrl": "http://prisma.fyi/p109"
+            }
+        },
+        {
+            "id": "e1984e80-f467-413d-9001-f2ada7e3a377",
+            "attributes": {
+                "severity": "medium",
+                "name": "GCP Storage log buckets have object versioning disabled",
+                "rule": "$.resource.google_storage_bucket exists and ($.resource.google_storage_bucket[*].versioning anyNull or $.resource.google_storage_bucket[*].versioning.enabled anyNull or $.resource.google_storage_bucket[*].versioning.enabled anyFalse)",
+                "desc": "This policy identifies Storage log buckets which have object versioning disabled. Enabling object versioning on storage log buckets will protect your cloud storage data from being overwritten or accidentally deleted. It is recommended to enable object versioning feature on all storage buckets where sinks are configured.",
+                "files": [
+                    "attached"
+                ],
+                "policyId": "e1984e80-f467-413d-9001-f2ada7e3a377",
+                "docUrl": "http://prisma.fyi/p79"
+            }
+        },
+        {
+            "id": "82dcb04d-0fae-4d38-9692-fc7dabc0e50c",
+            "attributes": {
+                "severity": "medium",
+                "name": "GCP Projects have OS Login disabled",
+                "rule": "$.resource.google_compute_project_metadata_item[*].key exists and $.resource.google_compute_project_metadata_item[*].key == enable-oslogin and $.resource.google_compute_project_metadata_item[*].value exists and $.resource.google_compute_project_metadata_item[*].value == FALSE",
+                "desc": "This policy identifies GCP Projects which have OS Login disabled. Enabling OS Login ensures that SSH keys used to connect to instances are mapped with IAM users. Revoking access to IAM user will revoke all the SSH keys associated with that particular user. It facilitates centralized and automated SSH key pair management which is useful in handling cases like a response to compromised SSH key pairs.",
+                "files": [
+                    "attached"
+                ],
+                "policyId": "82dcb04d-0fae-4d38-9692-fc7dabc0e50c",
+                "docUrl": "http://prisma.fyi/p39"
+            }
+        },
+        {
+            "id": "662f4580-b4cf-430b-a72c-6550c82d38e1",
+            "attributes": {
+                "severity": "medium",
+                "name": "GCP User managed service accounts have user managed service account keys",
+                "rule": "$.resource.google_service_account_key[*].service_account_id contains google_service_account or $.resource.google_service_account_key[*].service_account_id any end with iam.gserviceaccount.com",
+                "desc": "This policy identifies user managed service accounts that use user managed service account keys instead of Google-managed. For user-managed keys, the User has to take ownership of key management activities. Even after owner precaution, keys can be easily leaked by common development malpractices like checking keys into the source code or leaving them in downloads directory or accidentally leaving them on support blogs/channels. So It is recommended to limit the use of User-managed service account keys and i",
+                "files": [
+                    "attached"
+                ],
+                "policyId": "662f4580-b4cf-430b-a72c-6550c82d38e1",
+                "docUrl": "http://prisma.fyi/p63"
+            }
+        },
+        {
+            "id": "08d12f5a-eaef-416b-9597-3e557ffa9161",
+            "attributes": {
+                "severity": "medium",
+                "name": "SQL Instances do not have SSL configured",
+                "rule": "$.resource.google_sql_database_instance exists and $.resource.google_sql_ssl_cert !exists",
+                "desc": "Checks to verify that the SSL configuration for the SQL instance is valid with an unexpired SSL certificate.\n        Cloud SQL supports connecting to an instance using the Secure Socket Layer (SSL) protocol. If you are not connecting to an instance by using Cloud SQL Proxy, you should use SSL, so that the data you send and receive from Google Cloud SQL is secure.",
+                "files": [
+                    "attached"
+                ],
+                "policyId": "08d12f5a-eaef-416b-9597-3e557ffa9161",
+                "docUrl": "http://prisma.fyi/p37"
+            }
+        },
+        {
+            "id": "89bef727-64c6-497c-810d-3689199e4350",
+            "attributes": {
+                "severity": "medium",
+                "name": "GCP IAM user with service account privileges",
+                "rule": "$.data[*].google_iam_policy[*].*[*].binding[?( @.role=='roles/iam.serviceAccountUser' || @.role=='roles/iam.serviceAccountActor' || @.role=='roles/iam.serviceAccountTokenCreator' )].member startsWith \"user:\"  or $.data[*].google_iam_policy[*].*[*].binding[?( @.role=='roles/iam.serviceAccountUser' || @.role=='roles/iam.serviceAccountActor' || @.role=='roles/iam.serviceAccountTokenCreator' )].members any start with \"user:\" or  $.resource[*].google_organization_iam_binding[*].binding[?( @.role=='roles/iam.serviceAccountUser' || @.role=='roles/iam.serviceAccountActor' || @.role=='roles/iam.serviceAccountTokenCreator' )].member startsWith \"user:\" or $.resource[*].google_organization_iam_binding[*].binding[?( @.role=='roles/iam.serviceAccountUser' || @.role=='roles/iam.serviceAccountActor' || @.role=='roles/iam.serviceAccountTokenCreator' )].members any start with \"user:\" or $.resource[*].google_organization_iam_member[*].binding[?( @.role=='roles/iam.serviceAccountUser' || @.role=='roles/iam.serviceAccountActor' || @.role=='roles/iam.serviceAccountTokenCreator' )].member startsWith \"user:\" or $.resource[*].google_organization_iam_member[*].binding[?( @.role=='roles/iam.serviceAccountUser' || @.role=='roles/iam.serviceAccountActor' || @.role=='roles/iam.serviceAccountTokenCreator' )].members any start with \"user:\"  or $.resource[*].google_project_iam_binding[*].*[?( @.role=='roles/iam.serviceAccountUser' || @.role=='roles/iam.serviceAccountActor' || @.role=='roles/iam.serviceAccountTokenCreator' )].member startsWith \"user:\"  or $.resource.google_project_iam_binding.*[?( @.role=='roles/iam.serviceAccountUser' || @.role=='roles/iam.serviceAccountActor' || @.role=='roles/iam.serviceAccountTokenCreator' )].members[*] any start with \"user:\"  or $.resource.google_project_iam_member.*[?( @.role=='roles/iam.serviceAccountUser' || @.role=='roles/iam.serviceAccountActor' || @.role=='roles/iam.serviceAccountTokenCreator' )].member startsWith \"user:\"  or  $.resource[*].google_project_iam_member[*].*[?( @.role=='roles/iam.serviceAccountUser' || @.role=='roles/iam.serviceAccountActor' || @.role=='roles/iam.serviceAccountTokenCreator' )].members any start with \"user:\"",
+                "desc": "Checks to ensure that IAM users don't have service account privileges. Adding any user as service account actor will enable these users to have service account privileges. Adding only authorized corporate IAM users as service account actors will make sure that your information is secure.",
+                "files": [
+                    "attached"
+                ],
+                "policyId": "89bef727-64c6-497c-810d-3689199e4350",
+                "docUrl": "http://prisma.fyi/p24"
+            }
+        },
+        {
+            "id": "8212ac16-362c-4555-b182-76e9963434fb",
+            "attributes": {
+                "severity": "medium",
+                "name": "GCP Kubernetes Engine Clusters using the default network",
+                "rule": "$.resource.google_project[*].auto_create_network anyTrue or  $.resource.google_project[*].auto_create_network anyNull",
+                "desc": "This policy identifies Google Kubernetes Engine (GKE) clusters that are configured to use the default network. Because GKE uses this network when creating routes and firewalls for the cluster, as a best practice define a network configuration that meets your security and networking requirements for ingress and egress traffic, instead of using the default network.",
+                "files": [
+                    "attached"
+                ],
+                "policyId": "8212ac16-362c-4555-b182-76e9963434fb",
+                "docUrl": "http://prisma.fyi/p96"
+            }
+        },
+        {
+            "id": "a667d66e-899d-4b15-ab02-9de69c73dd8c",
+            "attributes": {
+                "severity": "medium",
+                "name": "GCP Kubernetes cluster Application-layer Secrets not encrypted",
+                "rule": "$.resource.google_container_cluster exists and ($.resource.google_container_cluster[*].database_encryption anyNull or  $.resource.google_container_cluster[*].database_encryption.state any equal DECRYPTED)",
+                "desc": "Application-layer Secrets Encryption provides an additional layer of security for sensitive data, such as Secrets, stored in etcd. Using this functionality, you can use a key, that you manage in Cloud KMS, to encrypt data at the application layer. This protects against attackers who gain access to an offline copy of etcd.\n\nThis policy checks your cluster for the Application-layer Secrets Encryption security feature and alerts if it is not enabled.",
+                "files": [
+                    "attached"
+                ],
+                "policyId": "a667d66e-899d-4b15-ab02-9de69c73dd8c",
+                "docUrl": "http://prisma.fyi/p77"
+            }
+        },
+        {
+            "id": "d4a28b1f-9a9b-4a40-874d-9da7f9d4e8a6",
+            "attributes": {
+                "severity": "medium",
+                "name": "GCP Kubernetes Engine Cluster Nodes have default Service account for Project access",
+                "rule": "$.resource.google_container_cluster[*].node_config anyNull or $.resource.google_container_cluster[*].node_config.service_account anyNull",
+                "desc": "This policy identifies Kubernetes Engine Cluster Nodes which have default Service account for Project access. By default, Kubernetes Engine nodes are given the Compute Engine default service account. This account has broad access and more permissions than are required to run your Kubernetes Engine cluster. You should create and use a least privileged service account to run your Kubernetes Engine cluster instead of using the Compute Engine default service account. If you are not creating a separate service a",
+                "files": [
+                    "attached"
+                ],
+                "policyId": "d4a28b1f-9a9b-4a40-874d-9da7f9d4e8a6",
+                "docUrl": "http://prisma.fyi/p33"
+            }
+        },
+        {
+            "id": "d01c2b9c-38ec-403f-a56f-d80b3f2df46b",
+            "attributes": {
+                "severity": "medium",
+                "name": "GCP IAM user have overly permissive Cloud KMS roles",
+                "rule": "$.data[*].google_iam_policy[*].*[*].binding[?( @.role=='roles/cloudkms.admin' )].member startsWith \"user:\"  or $.data[*].google_iam_policy[*].*[*].binding[?( @.role=='roles/cloudkms.admin' )].members any start with \"user:\" or  $.resource[*].google_organization_iam_binding[*].binding[?( @.role=='roles/cloudkms.admin' )].member startsWith \"user:\" or $.resource[*].google_organization_iam_binding[*].binding[?( @.role=='roles/cloudkms.admin' )].members any start with \"user:\" or $.resource[*].google_organization_iam_member[*].binding[?( @.role=='roles/cloudkms.admin' )].member startsWith \"user:\" or $.resource[*].google_organization_iam_member[*].binding[?( @.role=='roles/cloudkms.admin' )].members any start with \"user:\"  or $.resource[*].google_project_iam_binding[*].*[?( @.role=='roles/cloudkms.admin')].member startsWith \"user:\"  or $.resource.google_project_iam_binding.*[?( @.role=='roles/cloudkms.admin')].members[*] any start with \"user:\"  or $.resource.google_project_iam_member.*[?( @.role=='roles/cloudkms.admin' )].member startsWith \"user:\" or $.resource[*].google_project_iam_member[*].*[?( @.role=='roles/cloudkms.admin' )].members any start with \"user:\"",
+                "desc": "This policy identifies IAM users who have overly permissive Cloud KMS roles. Built-in/Predefined IAM role Cloud KMS Admin allows the user to create, delete, and manage service accounts. Built-in/Predefined IAM role Cloud KMS CryptoKey Encrypter/Decrypter allows the user to encrypt and decrypt data at rest using the encryption keys. It is recommended to follow the principle of 'Separation of Duties' ensuring that one individual does not have all the necessary permissions to be able to complete a malicious ac",
+                "files": [
+                    "attached"
+                ],
+                "policyId": "d01c2b9c-38ec-403f-a56f-d80b3f2df46b",
+                "docUrl": "http://prisma.fyi/p91"
+            }
+        },
+        {
+            "id": "6ddbfdfe-3936-43d0-8157-97a7899beae6",
+            "attributes": {
+                "severity": "medium",
+                "name": "GCP Kubernetes Engine Clusters have Network policy disabled",
+                "rule": "$.resource.google_container_cluster exists and  ($.resource.google_container_cluster[*].network_policy anyNull or $.resource.google_container_cluster[*].addons_config.network_policy_config anyNull or $.resource.google_container_cluster[*].addons_config.network_policy_config.disabled anyNull or $.resource.google_container_cluster[*].addons_config.network_policy_config.disabled anyTrue) ",
+                "desc": "This policy identifies Kubernetes Engine Clusters which have disabled Network policy. A network policy defines how groups of pods are allowed to communicate with each other and other network endpoints. By enabling network policy in a namespace for a pod, it will reject any connections that are not allowed by the network policy.",
+                "files": [
+                    "attached"
+                ],
+                "policyId": "6ddbfdfe-3936-43d0-8157-97a7899beae6",
+                "docUrl": "http://prisma.fyi/p17"
+            }
+        },
+        {
+            "id": "e1b70bb4-bb77-4326-93d5-5dd9c5170d3f",
+            "attributes": {
+                "severity": "medium",
+                "name": "GCP Kubernetes Engine Clusters have Master authorized networks disabled",
+                "rule": "$.resource.google_container_cluster[*].master_authorized_networks_config anyNull or ($.resource.google_container_cluster[*].master_authorized_networks_config exists and $.resource.google_container_cluster[*].master_authorized_networks_config.cidr_blocks !exists)",
+                "desc": "This policy identifies Kubernetes Engine Clusters which have disabled Master authorized networks. Enabling Master authorized networks will let the Kubernetes Engine block untrusted non-GCP source IPs from accessing the Kubernetes master through HTTPS.",
+                "files": [
+                    "attached"
+                ],
+                "policyId": "e1b70bb4-bb77-4326-93d5-5dd9c5170d3f",
+                "docUrl": "http://prisma.fyi/p16"
+            }
+        },
+        {
+            "id": "598c891b-bd7a-4fab-b477-a64bc4ddcf4c",
+            "attributes": {
+                "severity": "low",
+                "name": "GCP Kubernetes Engine Clusters have pod security policy disabled",
+                "rule": "$.resource.google_container_cluster exists and ($.resource.google_container_cluster[*].pod_security_policy_config anyNull or $.resource.google_container_cluster[*].pod_security_policy_config.enabled anyFalse)",
+                "desc": "This policy identifies Kubernetes Engine Clusters which have pod security policy disabled. The Pod Security Policy defines a set of conditions that pods must meet to be accepted by the cluster; when a request to create or update a pod does not meet the conditions in the pod security policy, that request is rejected and an error is returned.",
+                "files": [
+                    "attached"
+                ],
+                "policyId": "598c891b-bd7a-4fab-b477-a64bc4ddcf4c",
+                "docUrl": "http://prisma.fyi/p51"
+            }
+        },
+        {
+            "id": "e41fea47-678f-4aeb-97a8-bdf721d08e57",
+            "attributes": {
+                "severity": "low",
+                "name": "GCP Kubernetes Engine Clusters not using Container-Optimized OS for Node image",
+                "rule": "$.resource.google_container_node_pool exists and  ($.resource.google_container_node_pool[*].node_config anyNull or $.resource.google_container_node_pool[*].node_config.image_type anyNull or not $.resource.google_container_node_pool[*].node_config.image_type allStartWith \"COS\") ",
+                "desc": "This policy identifies Kubernetes Engine Clusters which do not have a container-optimized operating system for node image. Container-Optimized OS is an operating system image for your Compute Engine VMs that is optimized for running Docker containers. By using Container-Optimized OS for node image, you can bring up your Docker containers on Google Cloud Platform quickly, efficiently, and securely. The Container-Optimized OS node image is based on a recent version of the Linux kernel and is optimized to enha",
+                "files": [
+                    "attached"
+                ],
+                "policyId": "e41fea47-678f-4aeb-97a8-bdf721d08e57",
+                "docUrl": "http://prisma.fyi/p94"
+            }
+        },
+        {
+            "id": "506d5f7a-05ad-43d8-a48a-20695a47c14b",
+            "attributes": {
+                "severity": "low",
+                "name": "GCP Kubernetes Engine Clusters Client Certificate is set to Disabled",
+                "rule": "$.resource.google_container_cluster[*].master_auth.client_certificate_config.issue_client_certificate anyTrue",
+                "desc": "This policy identifies Kubernetes Engine Clusters which have disabled Client Certificate. A client certificate is a base64-encoded public certificate used by clients to authenticate to the cluster endpoint. Enabling Client Certificate will provide more security to authenticate users to the cluster.",
+                "files": [
+                    "attached"
+                ],
+                "policyId": "506d5f7a-05ad-43d8-a48a-20695a47c14b",
+                "docUrl": "http://prisma.fyi/p11"
+            }
+        },
+        {
+            "id": "952d8fdc-ad1f-4c19-ab00-1258d2745424",
+            "attributes": {
+                "severity": "low",
+                "name": "GCP VM disks not encrypted with Customer-Supplied Encryption Keys (CSEK)",
+                "rule": "$.resource.google_compute_disk exists and $.resource.google_compute_disk[*].disk_encryption_key does not exist",
+                "desc": "This policy identifies VM disks which are not encrypted with Customer-Supplied Encryption Keys (CSEK). If you provide your own encryption keys, Compute Engine uses your key to protect the Google-generated keys used to encrypt and decrypt your data. It is recommended to use VM disks encrypted with CSEK for business-critical VM instances.",
+                "files": [
+                    "attached"
+                ],
+                "policyId": "952d8fdc-ad1f-4c19-ab00-1258d2745424",
+                "docUrl": "http://prisma.fyi/p88"
+            }
+        },
+        {
+            "id": "63b162f4-628c-4d4a-a094-63c12ebc4ba2",
+            "attributes": {
+                "severity": "low",
+                "name": "GCP Kubernetes Engine Clusters have Alias IP disabled",
+                "rule": "$.resource.google_container_cluster exists and ($.resource.google_container_cluster[*].ip_allocation_policy does not exist or ($.resource.google_container_cluster[*].ip_allocation_policy exists and ($.resource.google_container_cluster[*].ip_allocation_policy.cluster_secondary_range_name does not exist or $.resource.google_container_cluster[*].ip_allocation_policy.services_secondary_range_name does not exist or $.resource.google_container_cluster[*].ip_allocation_policy.cluster_ipv4_cidr_block does not exist or $.resource.google_container_cluster[*].ip_allocation_policy.services_ipv4_cidr_block does not exist)))",
+                "desc": "This policy identifies Kubernetes Engine Clusters which have disabled Alias IP. Alias IP allows the networking layer to perform anti-spoofing checks to ensure that egress traffic is not sent with arbitrary source IPs. By enabling Alias IPs, Kubernetes Engine clusters can allocate IP addresses from a CIDR block known to Google Cloud Platform. This makes your cluster more scalable and allows your cluster to better interact with other GCP products and entities.",
+                "files": [
+                    "attached"
+                ],
+                "policyId": "63b162f4-628c-4d4a-a094-63c12ebc4ba2",
+                "docUrl": "http://prisma.fyi/p82"
+            }
+        }
+    ]
+}
